@@ -87,7 +87,7 @@ func (c *ManipulationJudgeConfig) Validate() error {
 	)
 }
 
-type JudgeConfig struct {
+type JudgesConfig struct {
 	LoggerConfig zap.Config `json:"logger"`
 
 	MainDBConfig OracleConfig `json:"main_db"`
@@ -97,7 +97,7 @@ type JudgeConfig struct {
 	SchemaManipulationJudgeConfig ManipulationJudgeConfig `json:"schema_manipulation_judge"`
 }
 
-func (c *JudgeConfig) Validate() error {
+func (c *JudgesConfig) Validate() error {
 	if err := c.MainDBConfig.Validate(); err != nil {
 		return err
 	}
@@ -113,7 +113,7 @@ func (c *JudgeConfig) Validate() error {
 	return nil
 }
 
-func (c *JudgeConfig) LoadFromFile(path string) error {
+func (c *JudgesConfig) LoadFromFile(path string) error {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return err
@@ -130,12 +130,12 @@ func (c *JudgeConfig) LoadFromFile(path string) error {
 	}
 }
 
-func (c *JudgeConfig) loadFromJSON(data []byte) error {
+func (c *JudgesConfig) loadFromJSON(data []byte) error {
 	return json.Unmarshal(data, c)
 }
 
 const defaultConfigFile = "config.json"
 
-func (c *JudgeConfig) LoadDefault() error {
+func (c *JudgesConfig) LoadDefault() error {
 	return c.LoadFromFile(defaultConfigFile)
 }
